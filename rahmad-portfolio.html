@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahmad Taufek — Logistics & SAP Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg:        #0c0e12;
+    --bg2:       #111419;
+    --bg3:       #181c22;
+    --border:    #252b34;
+    --gold:      #c9a84c;
+    --gold-lt:   #e6c97a;
+    --gold-dim:  rgba(201,168,76,0.12);
+    --teal:      #2dd4bf;
+    --teal-dim:  rgba(45,212,191,0.10);
+    --text:      #e8eaf0;
+    --muted:     #7a8499;
+    --card:      #13171e;
+    --line:      rgba(255,255,255,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: .35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(12,14,18,0.88);
+    backdrop-filter: blur(14px);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    letter-spacing: .02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* decorative ring */
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -180px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    box-shadow:
+      inset 0 0 80px rgba(201,168,76,0.04),
+      0 0 120px rgba(201,168,76,0.06);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem;
+    color: var(--gold);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp .7s .1s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 8vw, 6.4rem);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: #fff;
+    opacity: 0;
+    animation: fadeUp .7s .2s forwards;
+  }
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    max-width: 480px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-top: 1.4rem;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp .7s .35s forwards;
+  }
+
+  .hero-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 2.4rem;
+    opacity: 0;
+    animation: fadeUp .7s .5s forwards;
+  }
+  .hero-contacts a, .hero-contacts span {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .85rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+    font-family: 'DM Mono', monospace;
+  }
+  .hero-contacts a:hover { color: var(--gold); }
+  .hero-contacts i { color: var(--gold); font-size: .9rem; }
+
+  .hero-award {
+    margin-top: 3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.28);
+    border-radius: 12px;
+    padding: .9rem 1.4rem;
+    opacity: 0;
+    animation: fadeUp .7s .65s forwards;
+  }
+  .hero-award i { color: var(--gold); font-size: 1.4rem; }
+  .hero-award-text strong { display: block; color: var(--gold-lt); font-size: .92rem; }
+  .hero-award-text span { color: var(--muted); font-size: .78rem; }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeUp .7s 1s forwards;
+  }
+  .scroll-hint span { font-size: .7rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: .3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ─── SECTION ─── */
+  section { padding: 5rem 0; }
+
+  .sec-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    color: var(--teal);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .sec-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+
+  /* ─── KPI STRIP ─── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 3.5rem;
+  }
+  .kpi {
+    background: var(--card);
+    padding: 2rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    transition: background .2s;
+  }
+  .kpi:hover { background: #191e27; }
+  .kpi-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .kpi-label { font-size: .82rem; color: var(--muted); font-weight: 500; }
+
+  /* ─── EXPERIENCE TIMELINE ─── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0 1.5rem;
+    position: relative;
+  }
+  /* zig-zag: odd on left, even on right */
+  .tl-item:nth-child(odd) .tl-content { grid-column: 1; text-align: right; }
+  .tl-item:nth-child(odd) .tl-dot   { grid-column: 2; }
+  .tl-item:nth-child(odd) .tl-empty { grid-column: 3; }
+
+  .tl-item:nth-child(even) .tl-empty   { grid-column: 1; }
+  .tl-item:nth-child(even) .tl-dot     { grid-column: 2; }
+  .tl-item:nth-child(even) .tl-content { grid-column: 3; text-align: left; }
+
+  .tl-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-row: 1;
+  }
+  .tl-dot-circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px var(--gold-dim);
+    flex-shrink: 0;
+    margin-top: 1.2rem;
+  }
+  .tl-dot-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 6px;
+  }
+  .tl-item:last-child .tl-dot-line { display: none; }
+
+  .tl-content {
+    padding: 1rem 0 3rem;
+    grid-row: 1;
+  }
+  .tl-content .tl-date {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    color: var(--gold);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  .tl-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: .2rem;
+  }
+  .tl-content .company { color: var(--teal); font-size: .88rem; font-weight: 600; margin-bottom: .6rem; }
+  .tl-content p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+  .tl-empty { grid-row: 1; }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--gold);
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .skill-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-card h4 {
+    font-size: .75rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .tag {
+    padding: .3rem .9rem;
+    border-radius: 30px;
+    font-size: .8rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    transition: all .2s;
+  }
+  .tag:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .tag i { font-size: .75rem; color: var(--gold); }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .proj-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: all .25s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .proj-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+  .proj-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.1rem;
+  }
+  .proj-card h3 { color: #fff; font-size: 1.05rem; font-weight: 600; }
+  .proj-card p { color: var(--muted); font-size: .88rem; line-height: 1.7; flex: 1; }
+  .proj-result {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--teal-dim);
+    border: 1px solid rgba(45,212,191,0.2);
+    padding: .4rem .9rem;
+    border-radius: 8px;
+    font-size: .8rem;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* ─── EDUCATION ─── */
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    max-width: 640px;
+  }
+  .edu-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .edu-card h3 { color: #fff; font-size: 1.1rem; margin-bottom: .25rem; }
+  .edu-card p { color: var(--muted); font-size: .88rem; }
+  .edu-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin-top: .7rem;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: .3rem .8rem;
+    border-radius: 8px;
+    font-size: .78rem;
+    color: var(--gold-lt);
+    font-weight: 600;
+  }
+
+  /* ─── ABOUT / QUOTE ─── */
+  .quote-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-block::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 10rem;
+    color: var(--gold);
+    opacity: .07;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-block p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-style: italic;
+    max-width: 700px;
+    position: relative;
+  }
+  .quote-author {
+    margin-top: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: .78rem;
+    color: var(--gold);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1rem;
+  }
+  .footer-note { color: var(--muted); font-size: .82rem; }
+  .footer-badges { display: flex; gap: .6rem; }
+  .f-badge {
+    padding: .3rem .8rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: .75rem;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .f-badge i { color: var(--teal); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 680px) {
+    .tl-item { grid-template-columns: 1fr; }
+    .tl-item .tl-content, .tl-item .tl-dot, .tl-item .tl-empty { grid-column: 1; }
+    .tl-item:nth-child(odd) .tl-content { text-align: left; }
+    .tl-dot { flex-direction: row; gap: 1rem; margin-bottom: .5rem; }
+    .tl-dot-line { width: 40px; height: 1px; margin-top: 0; }
+    .tl-content { padding: 0 0 2rem; }
+    .nav-links { display: none; }
+    .hero { min-height: auto; padding: 4rem 0 3rem; }
+    .hero::after { display: none; }
+    .quote-block { padding: 1.8rem; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">R. Taufek</div>
+    <ul class="nav-links">
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#experience">Pengalaman</a></li>
+      <li><a href="#projects">Proyek</a></li>
+      <li><a href="#skills">Keahlian</a></li>
+      <li><a href="#education">Pendidikan</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <i class="fas fa-warehouse"></i> Warehouseman &amp; SAP Specialist
+    </div>
+    <h1>
+      Rahmad<br>
+      <span>Taufek.</span>
+    </h1>
+    <p class="hero-sub">
+      Mengoperasionalkan gudang berbasis data, menjaga akurasi inventaris, dan mengoptimalkan rantai pasok dengan sistem SAP di lingkungan site pertambangan.
+    </p>
+    <div class="hero-contacts">
+      <span><i class="fas fa-map-marker-alt"></i> Tenggarong Seberang, Kaltim</span>
+      <a href="mailto:rahmadtau22@gmail.com"><i class="fas fa-envelope"></i> rahmadtau22@gmail.com</a>
+      <a href="tel:+6281351905493"><i class="fas fa-phone-alt"></i> 0813-5190-5493</a>
+    </div>
+    <div class="hero-award">
+      <i class="fas fa-trophy"></i>
+      <div class="hero-award-text">
+        <strong>Karyawan Paling Kreatif</strong>
+        <span>PT. Bina Pertiwi — Inovasi Proses Gudang Digital</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<hr class="divider">
+
+<!-- ═══════════════════ KPI ═══════════════════ -->
+<section id="about" style="padding: 4rem 0;">
+  <div class="wrap">
+    <div class="kpi-strip reveal">
+      <div class="kpi">
+        <div class="kpi-num">90<span style="font-size:1.4rem;color:var(--muted)">%</span></div>
+        <div class="kpi-label">Akurasi Inventaris SAP<br>(target perusahaan 85%)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">98<span style="font-size:1.4rem;color:var(--muted)">%</span></div>
+        <div class="kpi-label">On-Time Delivery<br>selama masa penugasan</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">&lt;2<span style="font-size:1.4rem;color:var(--muted)">%</span></div>
+        <div class="kpi-label">Stock Variance<br>melalui kontrol ketat SOP</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">30<span style="font-size:1.4rem;color:var(--muted)">%</span></div>
+        <div class="kpi-label">Penghematan waktu<br>stock taking via inovasi</div>
+      </div>
+    </div>
+
+    <div class="quote-block reveal">
+      <p>Seluruh pencapaian operasional didasarkan pada integritas data, kolaborasi lintas tim, dan efisiensi biaya logistik. Saya percaya gudang yang tertata rapi adalah fondasi dari rantai pasok yang sehat — dan setiap angka yang akurat di SAP adalah cerminan dari kerja yang sungguh-sungguh di lapangan.</p>
+      <div class="quote-author">— Rahmad Taufek, Warehouseman & SAP Specialist</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════ EXPERIENCE / TIMELINE ═══════════════════ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-label">Rekam Jejak</div>
+    <div class="sec-title reveal">Pengalaman Profesional</div>
+
+    <div class="timeline">
+      <!-- Item 1 -->
+      <div class="tl-item reveal">
+        <div class="tl-content">
+          <div class="tl-date">Mei 2024 — Sekarang</div>
+          <h3>Warehouseman & SAP Operator</h3>
+          <div class="company">PT. Bina Pertiwi — Site Pama Baya</div>
+          <p>Mengelola seluruh siklus barang dari inbound, stock opname, hingga outbound berbasis SAP WM/IM secara real-time. Menjaga akurasi data inventaris di atas target perusahaan, memproses PO, verifikasi QC barang masuk, dan koordinasi pengiriman internal.</p>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot-circle"></div>
+          <div class="tl-dot-line"></div>
+        </div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="tl-item reveal">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">
+          <div class="tl-dot-circle" style="background:var(--teal); box-shadow: 0 0 0 4px var(--teal-dim);"></div>
+          <div class="tl-dot-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-date">2024 — Pencapaian</div>
+          <h3>Karyawan Paling Kreatif</h3>
+          <div class="company" style="color:var(--gold);">Penghargaan PT. Bina Pertiwi</div>
+          <p>Piagam diberikan atas ide "Penyederhanaan form stock opname digital" yang mengintegrasikan scanner barcode & SAP mobile, mengurangi waktu stock taking hingga 30%.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="tl-item reveal">
+        <div class="tl-content">
+          <div class="tl-date">2024 — KPI</div>
+          <h3>Zero Document Loss</h3>
+          <div class="company">Administrasi PO & Delivery Order</div>
+          <p>Mempertahankan zero lost document untuk seluruh Purchase Order dan Delivery Order sepanjang tahun 2024, mendukung kelancaran audit dan kepercayaan stakeholder.</p>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot-circle"></div>
+          <div class="tl-dot-line"></div>
+        </div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="tl-item reveal">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">
+          <div class="tl-dot-circle" style="background:var(--teal); box-shadow: 0 0 0 4px var(--teal-dim);"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-date">6 Bulan Terakhir</div>
+          <h3>Zero Delayed Inbound Recording</h3>
+          <div class="company">Operasional Inbound Site Pertambangan</div>
+          <p>Tidak ada keterlambatan input data penerimaan barang ke SAP selama 6 bulan berturut-turut, memastikan visibilitas stok real-time untuk seluruh tim operasional.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-label">Area Kompetensi</div>
+    <div class="sec-title reveal">Proyek & Operasional Utama</div>
+
+    <div class="projects-grid">
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-database"></i></div>
+        <h3>Digitalisasi Data Gudang via SAP</h3>
+        <p>Mengintegrasikan seluruh aktivitas fisik gudang ke dalam sistem digital. Mengoperasikan modul Warehouse/Inventory Management SAP secara real-time dengan sinkronisasi data sempurna antara pergerakan fisik dan sistem.</p>
+        <div class="proj-result"><i class="fas fa-check-circle"></i> Akurasi stok 90% konsisten</div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-arrow-down"></i></div>
+        <h3>Manajemen Inbound & Administrasi PO</h3>
+        <p>Memproses dan memverifikasi dokumen Purchase Order, pemeriksaan fisik/QC barang tiba, input data penerimaan ke SAP secara real-time, serta koordinasi dengan tim pembelian dan user terkait.</p>
+        <div class="proj-result"><i class="fas fa-check-circle"></i> Zero delayed recording 6 bulan</div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-clipboard-list"></i></div>
+        <h3>Pengendalian Stok & Stock Taking</h3>
+        <p>Merencanakan dan mengeksekusi stock opname fisik berkala (bulanan & insidental), rekonsiliasi data ketidaksesuaian stok fisik vs SAP, serta investigasi penyebab variance dengan update SOP.</p>
+        <div class="proj-result"><i class="fas fa-check-circle"></i> Variance turun 40% dalam 1 tahun</div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-arrow-up"></i></div>
+        <h3>Manajemen Outbound & Pengiriman</h3>
+        <p>Mengatur proses picking & packing berdasarkan permintaan internal/eksternal, menerbitkan dokumen jalan & administrasi logistik, koordinasi dengan tim pengiriman untuk menjamin On-Time Delivery.</p>
+        <div class="proj-result"><i class="fas fa-check-circle"></i> 98% pengiriman tepat waktu</div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-lightbulb"></i></div>
+        <h3>Inovasi Form Stock Opname Digital</h3>
+        <p>Merancang sistem penyederhanaan form stock opname berbasis digital yang mengintegrasikan scanner barcode dengan SAP mobile, menggantikan proses manual yang memakan waktu lama.</p>
+        <div class="proj-result"><i class="fas fa-trophy"></i> Penghargaan Karyawan Kreatif</div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon"><i class="fas fa-shield-alt"></i></div>
+        <h3>Kontrol Dokumen & Audit Readiness</h3>
+        <p>Memastikan seluruh dokumen PO, Delivery Order, dan administrasi logistik tersimpan, terorganisir, dan siap diverifikasi kapan saja. Zero lost document sepanjang 2024.</p>
+        <div class="proj-result"><i class="fas fa-check-circle"></i> Zero lost document 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-label">Kompetensi</div>
+    <div class="sec-title reveal">Keahlian & Teknologi</div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <h4><i class="fas fa-microchip"></i> Sistem & Software</h4>
+        <div class="tag-row">
+          <span class="tag"><i class="fab fa-sap"></i> SAP WM/IM</span>
+          <span class="tag"><i class="fab fa-microsoft"></i> Microsoft Excel</span>
+          <span class="tag"><i class="fas fa-file-word"></i> Microsoft Word</span>
+          <span class="tag"><i class="fas fa-barcode"></i> Barcode Scanner</span>
+          <span class="tag"><i class="fas fa-mobile-alt"></i> SAP Mobile</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <h4><i class="fas fa-boxes-stacked"></i> Operasional Gudang</h4>
+        <div class="tag-row">
+          <span class="tag"><i class="fas fa-boxes"></i> Manajemen Inventaris</span>
+          <span class="tag"><i class="fas fa-tasks"></i> Stock Opname</span>
+          <span class="tag"><i class="fas fa-truck"></i> Inbound/Outbound</span>
+          <span class="tag"><i class="fas fa-file-alt"></i> Administrasi PO</span>
+          <span class="tag"><i class="fas fa-search"></i> QC Barang</span>
+          <span class="tag"><i class="fas fa-route"></i> Picking & Packing</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <h4><i class="fas fa-brain"></i> Soft Skills</h4>
+        <div class="tag-row">
+          <span class="tag"><i class="fas fa-users"></i> Kerja Tim</span>
+          <span class="tag"><i class="fas fa-comments"></i> Komunikasi</span>
+          <span class="tag"><i class="fas fa-search"></i> Ketelitian</span>
+          <span class="tag"><i class="fas fa-hourglass-half"></i> Manajemen Waktu</span>
+          <span class="tag"><i class="fas fa-lightbulb"></i> Problem Solving</span>
+          <span class="tag"><i class="fas fa-chart-line"></i> Data Driven</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════ EDUCATION ═══════════════════ -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-label">Latar Belakang</div>
+    <div class="sec-title reveal">Pendidikan</div>
+
+    <div class="edu-card reveal">
+      <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div>
+        <h3>SMAN 1 Tenggarong Seberang</h3>
+        <p>Jurusan IPA &nbsp;·&nbsp; Lulus 2019 &nbsp;·&nbsp; Tenggarong Seberang, Kalimantan Timur</p>
+        <div class="edu-badge"><i class="fas fa-medal"></i> Juara 2 O2SN Tingkat Kecamatan (2018)</div>
+        <div class="edu-badge" style="margin-left:.5rem;"><i class="fas fa-users"></i> Aktif organisasi & kepemimpinan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Rahmad Taufek</div>
+    <div class="footer-note">📍 Tenggarong Seberang, Kalimantan Timur &nbsp;·&nbsp; Tersedia untuk kolaborasi profesional</div>
+    <div class="footer-badges">
+      <span class="f-badge"><i class="fas fa-laptop"></i> Siap diverifikasi</span>
+      <span class="f-badge"><i class="fas fa-shield-alt"></i> Referensi tersedia</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════ SCROLL REVEAL JS ═══════════════════ -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        // stagger children if grid
+        const kids = e.target.querySelectorAll('.proj-card, .skill-card, .kpi, .tl-item');
+        kids.forEach((k, i) => {
+          k.style.transitionDelay = (i * 0.08) + 's';
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
